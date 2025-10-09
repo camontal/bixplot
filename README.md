@@ -6,11 +6,7 @@ The bixplot: A variation on the boxplot suited for bimodal data
 
 
 
-\*\*The bixplot\*\* is a variation of the classical boxplot designed to detect and display bimodality and multimodality in univariate data.
-
-It combines the strengths of the boxplot, violin plot, and beanplot by integrating a central box representing the interquartile range,
-
-density curves, and individual data visualization.
+\*\*The bixplot\*\* is a variation of the classical boxplot designed to detect and display bimodality and multimodality in univariate data, while combining the strengths of the boxplot, violin plot, and beanplot by integrating a central box representing the interquartile range, density curves, and individual data visualization.
 
 
 
