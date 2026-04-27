@@ -2,10 +2,7 @@
 name = "bixplot"
 version = "0.1.1"
 description = "The bixplot: A variation on the boxplot suited for bimodal data"
-authors = [
-    { name = "Camille Montalcini", email = "camille.montalcini@outlook.com"},
-    { name = "Peter Rousseeuw" }
-]
+authors = [{ name = "Camille Montalcini", email = "camille.montalcini@outlook.com"}]
 readme = "README.md"
 requires-python = ">=3.8"
 license = { text = "MIT" }
