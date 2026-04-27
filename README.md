@@ -24,28 +24,9 @@ pip install bixplot
 
 ---
 
-## Quick example
-
-from bixplot import bixplot
-import seaborn as sns
-
-df_penguins = sns.load_dataset("penguins")
-print(df_penguins.shape)
-display(df_penguins.head(2))
-
-fig, axs = plt.subplots(1,2, figsize=(8, 4))
-sns.violinplot(data=df_penguins, x='island', y='bill_length_mm', color=R_orange, linecolor="k", ax=axs[0])
-axs[0].set_title("violin plot", fontweight='bold', fontsize=10)
-
-bixplot(data=df_penguins, x='island', y='bill_length_mm', ax=axs[1])
-axs[1].set_title("bixplot", fontweight='bold', fontsize=10)
-plt.tight_layout()
-
----
-
 ## Examples
 
-More examples are available in the `examples/` folder.
+Examples are available in the `examples/` folder.
 
 ---
 
