@@ -9,6 +9,7 @@
 The method is based on the research paper:
 
 “The bixplot: A variation on the boxplot suited for bimodal data”
+Authors: Camille Montalcini, Peter Rousseeuw
 
 The classical boxplot assumes unimodality and may fail to reveal meaningful subgroups in the data.  
 The bixplot addresses this by:
