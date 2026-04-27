@@ -12,35 +12,18 @@ from sklearn.neighbors import KernelDensity
 from diptest import diptest
 import pulp # linear programming package
 
-from sklearn_extra.cluster import KMedoids #kmedoids todo delete after test
+from sklearn_extra.cluster import KMedoids 
 from matplotlib.collections import LineCollection    #vectorized the plot for rug inside outside            
-
 
 #plotting
 import seaborn as sns
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-import matplotlib.colors as mcolors
 from matplotlib.lines import Line2D
 from matplotlib.patches import Patch
-from matplotlib.gridspec import GridSpec
 
-#sys.path.append('C:\\Users\\montalci\\Desktop\\AImigration\\bixplot\\bixplot')
 from .pamc1d import pamc1d
 from .colors import spaced_palette, _map_rug_colors, darker
-            
-from functools import lru_cache
-
-# @lru_cache(maxsize=None)
-# def cached_kde(vals_tuple, bandwidth, kernel):
-#     vals = np.array(vals_tuple)
-#     kde = KernelDensity(kernel=kernel, bandwidth=bandwidth).fit(vals[:, None])
-#     return kde
-# kde = cached_kde(tuple(np.round(vals, 6)), bandwidth, kernel)
-#Use scipy.stats.gaussian_kde instead of sklearn.neighbors.KernelDensity when kernel = 'gaussian'.
-from scipy.stats import gaussian_kde
-#kde = gaussian_kde(vals)
-#bw = kde.factor * vals.std(ddof=1)
 
 def bixplot(data=None, x=None, y=None, orient='v', group_order=None, width=0.8, 
             diplevel=0.01, minN=15, clusMinN=3, kmax=None, maxit=500, stand=True, verbose=False, 
@@ -51,7 +34,8 @@ def bixplot(data=None, x=None, y=None, orient='v', group_order=None, width=0.8,
             rug_outer_color=None, rug_outer_linewidths=1.5,
             box_color='black', showbox=True, box_linewidth=1, box_width=1,
             density_color='mode', showdensity=True, density_alpha=0.5, density_borderlinewidth=1, 
-            density_norm='width', kernel= 'gaussian', bandwidth='scott', cut=3, cutmin=None, cutmax=None, bigN=500, random_state=None, ax=None):
+            density_norm='width', kernel= 'gaussian', bandwidth='scott', cut=3, cutmin=None, cutmax=None, bigN=500, 
+            undo_constrainkmax=False, random_state=None, ax=None):
     """    
     Bixplot: distribution plot combining density curves, boxplots, and rug plots, with support 
     for multimodal clustering. Densities and boxplots are shown only for groups with at least four unique values; 
@@ -228,6 +212,9 @@ def bixplot(data=None, x=None, y=None, orient='v', group_order=None, width=0.8,
         When a variable has over bigN non-NA values,
         we sample bigN values from it without 
         replacement, to save computation time.
+    undo_constrainkmax: bool, default = False
+        whether to force not truncating kmax to 5 
+        internally
     ax : matplotlib Axes, optional
         Axis on which to draw. Defaults to current axis.
 
@@ -414,6 +401,7 @@ def bixplot(data=None, x=None, y=None, orient='v', group_order=None, width=0.8,
                                               diplevel=diplevel, stand=stand, 
                                               maxit=maxit, 
                                               verbose=verbose, 
+                                              undo_constrainkmax = undo_constrainkmax,
                                               random_state=random_state)    
 
     # ------------------------------------------------------------------ #
@@ -903,7 +891,7 @@ def bixplot(data=None, x=None, y=None, orient='v', group_order=None, width=0.8,
 
 def bixplot_methods(data=None, group_vars=None, kde_var=None, 
                     kmax=None, minN=15, clusMinN=3, stand=False, maxit=500, diplevel=0.01, 
-                    verbose=False, random_state=0):
+                    verbose=False, undo_constrainkmax=False, random_state=0):
 
     """
     Test for unimodality within groups of data and assign modality IDs.
@@ -981,7 +969,8 @@ def bixplot_methods(data=None, group_vars=None, kde_var=None,
         
         ######### Determine kmax
         mykmax = kmax or max(1, math.floor(n/minN))
-        mykmax = min(mykmax, 5)
+        if not undo_constrainkmax:
+            mykmax = min(mykmax, 5)
         mykmax = max(1, min(mykmax, math.floor(nuniq/clusMinN)))
         if mykmax * minN > n:
             mykmax = max(1, math.floor(n/minN))

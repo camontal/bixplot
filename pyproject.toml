@@ -1,0 +1,29 @@
+[project]
+name = "bixplot"
+version = "0.1.1"
+description = "The bixplot: A variation on the boxplot suited for bimodal data"
+authors = [
+    { name = "Camille Montalcini", email = "camille.montalcini@outlook.com"},
+    { name = "Peter Rousseeuw" }
+]
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+dependencies = [
+    "numpy>=1.26,<2.0",
+    "pandas>=2.3",
+    "matplotlib>=3.10",
+    "seaborn>=0.13",
+    "scikit-learn>=1.6",
+    "scikit-learn-extra==0.3.0",
+    "pulp>=3.0",
+    "diptest>=0.10"
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+Homepage = "https://github.com/camontal/bixplot"
+Repository = "https://github.com/camontal/bixplot"
