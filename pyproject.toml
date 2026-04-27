@@ -1,6 +1,6 @@
 [project]
 name = "bixplot"
-version = "0.1.1"
+version = "0.1.2"
 description = "The bixplot: A variation on the boxplot suited for bimodal data"
 authors = [{ name = "Camille Montalcini", email = "camille.montalcini@outlook.com"}]
 readme = "README.md"
