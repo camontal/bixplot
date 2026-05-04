@@ -26,7 +26,7 @@ from .pamc1d import pamc1d
 from .colors import spaced_palette, _map_rug_colors, darker
 
 def bixplot(data=None, x=None, y=None, orient='v', group_order=None, width=0.8, 
-            diplevel=0.01, minN=15, clusMinN=3, kmax=None, maxit=500, stand=True, verbose=False, 
+            diplevel=0.01, minN=15, clusMinN=3, kmax=5, maxit=500, stand=False, verbose=False, 
             hue=None, hue_color=None, hue_order=None, split=True, hue_legend=True, legend_position=None,
             mode_color=None, mode_legend=False, mode_color_by_suffix=True,
             rug_hue=None, rug_color=None, rug_legend=False, jitter=False, rug_linewidths=1, showrug=True,
@@ -47,9 +47,6 @@ def bixplot(data=None, x=None, y=None, orient='v', group_order=None, width=0.8,
     is detected).
     
     ----------
-    data : DataFrame
-        Input dataset in long or wide format. Must contain at least one numeric column.
-
 
     data : DataFrame, Series, dict, array, or list of arrays
         Input dataset for plotting.
@@ -82,14 +79,13 @@ def bixplot(data=None, x=None, y=None, orient='v', group_order=None, width=0.8,
         per potential cluster. The maximum number of 
         clusters searched is limited to n/minN, where n is
         the number of non-missing values. If n < 2 ∗ minN, 
-        clustering is not attempted to avoid spurious
-        clusters from small samples. 
+        clustering is not attempted. 
     clusMinN : int, default = 3
         The clustering is constrained so that any cluster must contain at 
         least clusMinN unique values. When a variable has fewer values 
         than this, only points are drawn.
     kmax : int, default=None    
-        Maximum number of clusters to test. It will be truncated to 5 
+        Maximum number of clusters to test. It will be truncated to 7 
         internally. If NULL, it is set to min(floor(n/minN), 5). 
         When setting kmax=1 all variables are considered as single 
         clusters, making the display resemble a violin plot.
@@ -146,7 +142,7 @@ def bixplot(data=None, x=None, y=None, orient='v', group_order=None, width=0.8,
     rug_linewidths : float, default=1
         Line width of rug ticks.
     showrug : bool, default=True
-        Whether to show rug plot. Force to True when rug column is given
+        Whether to show rug plot. Force to True when rug column is provided
     rug_colorbarthickness : int, default=30
         Aspect ratio of rug colorbar (larger → thinner bar).
     rug_colorbarheight : float, default=1
@@ -156,7 +152,7 @@ def bixplot(data=None, x=None, y=None, orient='v', group_order=None, width=0.8,
     rug_length : int
         Size of the rug
     rug_outer_color, a color name or None, default=None
-        this specifies the color(s) of the part of the ruglines outside 
+        Specifies the color(s) of the part of the ruglines outside 
         of the body. If None, the same color as inside the body is used
     rug_outer_linewidths : float, default=1.5,
         specifies the width of the the ruglines outside 
@@ -169,7 +165,7 @@ def bixplot(data=None, x=None, y=None, orient='v', group_order=None, width=0.8,
     box_linewidth : float, default=1
         Line width for all boxplot elements.
     box_width : float, default = 1
-        Control how wide are the boxplots
+        Width of boxplots
         
     density_color : str | {'mode','hue'}, default='mode'
         Color mapping for densities. Can follow mode colors, hue colors, or fixed string.
@@ -200,11 +196,9 @@ def bixplot(data=None, x=None, y=None, orient='v', group_order=None, width=0.8,
     cutmin : int, default=None
         if specified, the densities of all variables
         and modes cannot go below the value cutmin.
-        Defaults to None which has no effect.
     cutmax : int, default=None
         if specified, the densities of all variables
         and modes cannot go above the value cutmax.
-        Defaults to None which has no effect. 
 
     random_state : int, optional
         Random seed for reproducibility.
@@ -213,10 +207,9 @@ def bixplot(data=None, x=None, y=None, orient='v', group_order=None, width=0.8,
         we sample bigN values from it without 
         replacement, to save computation time.
     undo_constrainkmax: bool, default = False
-        whether to force not truncating kmax to 5 
-        internally
+        If True, prevents truncation of kmax to 7 internally.
     ax : matplotlib Axes, optional
-        Axis on which to draw. Defaults to current axis.
+        Axis on which to draw. 
 
     Returns
     -------
@@ -890,7 +883,7 @@ def bixplot(data=None, x=None, y=None, orient='v', group_order=None, width=0.8,
 
 
 def bixplot_methods(data=None, group_vars=None, kde_var=None, 
-                    kmax=None, minN=15, clusMinN=3, stand=False, maxit=500, diplevel=0.01, 
+                    kmax=7, minN=15, clusMinN=3, stand=False, maxit=500, diplevel=0.01, 
                     verbose=False, undo_constrainkmax=False, random_state=0):
 
     """
@@ -970,7 +963,7 @@ def bixplot_methods(data=None, group_vars=None, kde_var=None,
         ######### Determine kmax
         mykmax = kmax or max(1, math.floor(n/minN))
         if not undo_constrainkmax:
-            mykmax = min(mykmax, 5)
+            mykmax = min(mykmax, 7)
         mykmax = max(1, min(mykmax, math.floor(nuniq/clusMinN)))
         if mykmax * minN > n:
             mykmax = max(1, math.floor(n/minN))
