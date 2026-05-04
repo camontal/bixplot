@@ -11,11 +11,7 @@ The method is based on the research paper:
 “The bixplot: A variation on the boxplot suited for bimodal data”
 Authors: Camille Montalcini, Peter Rousseeuw
 
-The classical boxplot assumes unimodality and may fail to reveal meaningful subgroups in the data.  
-The bixplot addresses this by:
-- testing for unimodality
-- if unimodality is rejected, it applies a univariate clustering method that ensures contiguous clusters, meaning that no cluster has members inside another cluster, and such that each cluster contains at least a given number of unique members.
-- visualizing clusters as separate components
+A bixplot extends the violin plot and boxplot by automatically testing each variable for unimodality (via Hartigan’s dip test) and, when multimodality is detected, fitting a constrained k-medoids clustering to identify and separately display the modes. Each variable is rendered as a filled density body, a box-and-whisker summary, and a rug of individual data values. The rug can optionally be colored by an external numeric or factor variable. 
 
 ---
 
